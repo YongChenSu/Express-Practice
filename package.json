@@ -1,0 +1,23 @@
+{
+  "name": "express-server",
+  "version": "1.0.0",
+  "description": "1. Create a JS file, such as index.js\r 2. require http and createServer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YongChenSu/Express-Practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YongChenSu/Express-Practice/issues"
+  },
+  "homepage": "https://github.com/YongChenSu/Express-Practice#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
