@@ -1,32 +1,19 @@
-const http = require('http');
-const server = http.createServer(handler);
+const express = require('express');
+const app = express();
+const port = 5001;
 
-function handler(req, res) {
-    if (req.url === '/hello') {
-        res.write('<h1>hello!</h1>');
-    } else if (req.url === '/hello-with-html-content-type') {
-        res.writeHead(200, {
-            'Content-Type': 'text/html',
-        });
+app.get('/', (req, res) => {
+    res.send('hello');
+});
 
-        res.write('<h1>hello-with-html-content-type!</h1>');
-    } else if (req.url === '/plaintext') {
-        res.writeHead(200, {
-            'Content-type': 'text/plaintext',
-        });
+app.get('/hello', (req, res) => {
+    res.send('hello man');
+});
 
-        res.write('<h1>Plait text</h1>');
-    } else if (req.url === '/google') {
-        res.writeHead(301, {
-            Location: 'https:google.com',
-        });
-    } else if (req.url === '/bye') {
-        res.write('bye');
-    } else {
-        res.write('invalid url');
-    }
+app.get('/bye', (req, res) => {
+    res.send('yo man');
+});
 
-    res.end();
-}
-
-server.listen(5001);
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+});
