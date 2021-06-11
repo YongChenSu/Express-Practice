@@ -18,6 +18,17 @@ const todoModel = {
             cb(null, results);
         });
     },
+
+    add: (content, cb) => {
+        db.query(
+            'insert into todos(content) values(?)',
+            [content],
+            (error, results) => {
+                if (error) return cb(error);
+                cb(null);
+            }
+        );
+    },
 };
 
 module.exports = todoModel;
