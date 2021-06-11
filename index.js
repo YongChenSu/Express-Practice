@@ -7,6 +7,7 @@ const app = express();
 const port = 5001;
 
 const todoController = require('./controllers/todo');
+const userController = require('./controllers/user');
 
 app.set('view engine', 'ejs');
 
@@ -24,7 +25,7 @@ app.use(flash());
 app.use((req, res, next) => {
     // 設定給 view 用的全域變數是 res.locals
     // 拿 session 或是 flash 則都是 req
-    res.locals.isLogin = req.session.isLogin || false;
+    res.locals.username = req.session.username;
     res.locals.errorMessage = req.flash('errorMessage');
     next();
 });
@@ -32,35 +33,19 @@ app.use((req, res, next) => {
 app.post('/todos', todoController.newTodo);
 app.get('/todos', todoController.getAll);
 app.get('/todos/:id', todoController.get);
-app.get('/', todoController.addTodo);
-
-app.get('/login', (req, res) => {
-    res.render(
-        'login'
-        // 若使用 locals 以下可省略
-        // , {
-        //     // 將 error message 的參數傳入
-        //     errorMessage: req.flash('errorMessage'),
-        // }
-    );
+app.get('/', (req, res) => {
+    res.render('index');
 });
 
-app.post('/login', (req, res) => {
-    if (req.body.password === 'abc') {
-        // req.session 可讀可寫
-        req.session.isLogin = true;
-        res.redirect('/');
-    } else {
-        // req.flash 對 key 寫 value
-        req.flash('errorMessage', 'Please Input Correct Password');
-        res.redirect('/login');
-    }
-});
+function redirectBack(req, res) {
+    res.redirect('back');
+}
 
-app.get('/logout', (req, res) => {
-    req.session.isLogin = false;
-    res.redirect('/');
-});
+app.get('/login', userController.login);
+app.post('/login', userController.handleLogin, redirectBack);
+app.get('/logout', userController.logout);
+app.get('/register', userController.register);
+app.post('/register', userController.handleRegister, redirectBack);
 
 app.listen(port, () => {
     db.connect();
