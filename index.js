@@ -1,4 +1,5 @@
 const express = require('express');
+const db = require('./db');
 const app = express();
 const port = 5001;
 
@@ -11,5 +12,6 @@ app.get('/todos', todoController.getAll);
 app.get('/todos/:id', todoController.get);
 
 app.listen(port, () => {
+    db.connect();
     console.log(`Example app listening on port ${port}`);
 });
