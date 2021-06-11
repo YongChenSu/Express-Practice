@@ -18,6 +18,19 @@ const todoController = {
             });
         });
     },
+
+    newTodo: (req, res) => {
+        // 把新增的 todo 拿出來，content 就是 addTodo.ejs > form > input > name
+        const content = req.body.content;
+        todoModel.add(content, (error) => {
+            if (error) return console.log(error);
+            res.redirect('/todos');
+        });
+    },
+
+    addTodo: (req, res) => {
+        res.render('addTodo');
+    },
 };
 
 module.exports = todoController;
