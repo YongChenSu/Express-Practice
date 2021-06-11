@@ -1,0 +1,10 @@
+<h1>簡易會員系統</h1>
+
+<% if (username) { %>
+<!-- 若將 = 改為 -，則不會做 escape -->
+Hello, <%= username %>
+<a href="/logout">登出</a>
+<% } else { %>
+<a href="/register">註冊</a>
+<a href="/login">登入</a>
+<% } %>
