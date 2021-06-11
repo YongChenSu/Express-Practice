@@ -29,9 +29,13 @@ const todoController = {
     },
 
     addTodo: (req, res) => {
-        res.render('addTodo', {
-            isLogin: req.session.isLogin,
-        });
+        res.render(
+            'addTodo'
+            // 若使用 locals 以下可省略
+            // , {
+            //     isLogin: req.session.isLogin,
+            // }
+        );
     },
 };
 
