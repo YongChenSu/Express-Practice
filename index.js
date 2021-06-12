@@ -8,6 +8,7 @@ const port = 5001;
 
 const todoController = require('./controllers/todo');
 const userController = require('./controllers/user');
+const commentController = require('./controllers/comment');
 
 app.set('view engine', 'ejs');
 
@@ -33,9 +34,7 @@ app.use((req, res, next) => {
 app.post('/todos', todoController.newTodo);
 app.get('/todos', todoController.getAll);
 app.get('/todos/:id', todoController.get);
-app.get('/', (req, res) => {
-    res.render('index');
-});
+app.get('/', commentController.index);
 
 function redirectBack(req, res) {
     res.redirect('back');
@@ -46,6 +45,8 @@ app.post('/login', userController.handleLogin, redirectBack);
 app.get('/logout', userController.logout);
 app.get('/register', userController.register);
 app.post('/register', userController.handleRegister, redirectBack);
+
+app.post('/comments', commentController.add);
 
 app.listen(port, () => {
     db.connect();
