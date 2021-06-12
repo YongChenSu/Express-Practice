@@ -22,6 +22,7 @@ Hello, <%= username %>
     <p><%= comment.content %></p>
 
     <% if (username === comment.username) { %>
+    <a href="/update_comments/<%= comment.id %>">編輯</a>
     <a href="/delete_comments/<%= comment.id %>">刪除</a>
     <% } %>
 </div>

@@ -30,6 +30,26 @@ const commentController = {
             res.redirect('/');
         });
     },
+
+    update: (req, res) => {
+        commentModel.get(req.params.id, (error, result) => {
+            res.render('update', {
+                comment: result,
+            });
+        });
+    },
+
+    handleUpdate: (req, res) => {
+        // 權限管理
+        commentModel.update(
+            req.session.username,
+            req.params.id,
+            req.body.content,
+            (error) => {
+                return res.redirect('/');
+            }
+        );
+    },
 };
 
 module.exports = commentController;
