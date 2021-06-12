@@ -4,7 +4,21 @@
 <!-- 若將 = 改為 -，則不會做 escape -->
 Hello, <%= username %>
 <a href="/logout">登出</a>
+
+<form method="POST" action="/comments">
+    <textarea name="content"></textarea>
+    <input type="submit" />
+</form>
 <% } else { %>
 <a href="/register">註冊</a>
 <a href="/login">登入</a>
 <% } %>
+
+<div></div>
+
+<% comments.forEach(function(comment) { %>
+<div>
+    <h2><%= comment.nickname %></h2>
+    <p><%= comment.content %></p>
+</div>
+<% }) %>
