@@ -23,6 +23,13 @@ const commentController = {
             return res.redirect('/');
         });
     },
+
+    delete: (req, res) => {
+        // 要檢查是否有該文章，故傳 req.session.username
+        commentModel.delete(req.session.username, req.params.id, (error) => {
+            res.redirect('/');
+        });
+    },
 };
 
 module.exports = commentController;

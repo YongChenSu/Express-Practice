@@ -14,7 +14,7 @@ const commentModel = {
 
     getAll: (cb) => {
         db.query(
-            `SELECT U.nickname, C.content
+            `SELECT U.nickname, C.content, C.id, C.username
                 FROM comments as C
                 LEFT JOIN users as U on U.username = C.username
                 ORDER BY C.id DESC
@@ -22,6 +22,17 @@ const commentModel = {
             (error, results) => {
                 if (error) return cb(error);
                 cb(null, results);
+            }
+        );
+    },
+
+    delete: (username, id, cb) => {
+        db.query(
+            `DELETE FROM comments WHERE id = ? AND username = ?`,
+            [id, username],
+            (error, results) => {
+                if (error) return cb(error);
+                cb(null);
             }
         );
     },
