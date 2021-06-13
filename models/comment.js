@@ -1,68 +1,25 @@
-const db = require('../db');
-
-const commentModel = {
-    add: (username, comment, cb) => {
-        db.query(
-            'insert into comments(username, content) values(?, ?)',
-            [username, comment],
-            (error, results) => {
-                if (error) return cb(error);
-                cb(null);
-            }
-        );
+'use strict';
+const { Model } = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+  class Comment extends Model {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    static associate(models) {
+      // define association here
+      Comment.belongsTo(models.User);
+    }
+  }
+  Comment.init(
+    {
+      content: DataTypes.TEXT,
     },
-
-    getAll: (cb) => {
-        db.query(
-            `SELECT U.nickname, C.content, C.id, C.username
-                FROM comments as C
-                LEFT JOIN users as U on U.username = C.username
-                ORDER BY C.id DESC
-            `,
-            (error, results) => {
-                if (error) return cb(error);
-                cb(null, results);
-            }
-        );
-    },
-
-    get: (id, cb) => {
-        db.query(
-            `SELECT U.nickname, C.content, C.id, C.username
-                FROM comments as C
-                LEFT JOIN users as U on U.username = C.username
-                WHERE C.id = ?
-            `,
-            [id],
-            (error, results) => {
-                if (error) return cb(error);
-                cb(null, results[0] || {});
-            }
-        );
-    },
-
-    delete: (username, id, cb) => {
-        db.query(
-            `DELETE FROM comments WHERE id = ? AND username = ?`,
-            [id, username],
-            (error, results) => {
-                if (error) return cb(error);
-                cb(null);
-            }
-        );
-    },
-
-    update: (username, id, content, cb) => {
-        db.query(
-            `UPDATE comments set content = ? WHERE id = ? and username = ?
-            `,
-            [content, id, username],
-            (error, results) => {
-                if (error) return cb(error);
-                cb(null);
-            }
-        );
-    },
+    {
+      sequelize,
+      modelName: 'Comment',
+    }
+  );
+  return Comment;
 };
-
-module.exports = commentModel;
