@@ -1,45 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <%- include('template/head') %>
-    </head>
+  <head>
+    <%- include('template/head') %>
+  </head>
 
-    <%- include('template/navbar') %>
+  <%- include('template/navbar') %>
 
-    <div class="container">
-        <div></div>
-        <% if (username) { %>
-        <form method="POST" action="/comments">
-            <div class="mb-3">
-                <label>留言內容</label>
-                <textarea name="content" class="form-control"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">送出留言</button>
-        </form>
+  <div class="container">
+    <div></div>
+    <% if (username) { %>
+    <form method="POST" action="/comments">
+      <div class="mb-3">
+        <label>留言內容</label>
+        <textarea name="content" class="form-control"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">送出留言</button>
+    </form>
+    <% } %>
+
+    <div></div>
+
+    <% comments.forEach(function(comment) { %>
+
+    <div class="card mt-3" style="width: 18rem">
+      <div class="card-body">
+        <h4 class="card-title"><%= comment.User.nickname %></h4>
+        <p class="card-text"><%= comment.content %></p>
+        <p><%= moment(comment.createdAt).format('YYYY-MM-DD HH:mm')%></p>
+        <% if (username === comment.User.username) { %>
+        <a class="btn btn-success" href="/update_comments/<%= comment.id %>"
+          >編輯</a
+        >
+        <a class="btn btn-danger" href="/delete_comments/<%= comment.id %>"
+          >刪除</a
+        >
         <% } %>
-
-        <div></div>
-
-        <% comments.forEach(function(comment) { %>
-
-        <div class="card mt-3" style="width: 18rem">
-            <div class="card-body">
-                <h5 class="card-title"><%= comment.nickname %></h5>
-                <p class="card-text"><%= comment.content %></p>
-                <% if (username === comment.username) { %>
-                <a
-                    class="btn btn-success"
-                    href="/update_comments/<%= comment.id %>"
-                    >編輯</a
-                >
-                <a
-                    class="btn btn-danger"
-                    href="/delete_comments/<%= comment.id %>"
-                    >刪除</a
-                >
-                <% } %>
-            </div>
-        </div>
-        <% }) %>
+      </div>
     </div>
+    <% }) %>
+  </div>
 </html>
